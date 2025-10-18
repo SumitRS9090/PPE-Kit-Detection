@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 8
+names: ['Earplug', 'Gloves', 'Goggles', 'Helmet', 'Mask', 'Person', 'Shoes', 'Vest']
+
+roboflow:
+  workspace: techathon
+  project: ppe-rqnu9
+  version: 5
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/techathon/ppe-rqnu9/dataset/5
