@@ -1,7 +1,19 @@
-import { ArrowLeft, TrendingUp, Target, Clock, CheckCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  TrendingUp,
+  Target,
+  Clock,
+  CheckCircle,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 
 const Performance = () => {
@@ -10,7 +22,7 @@ const Performance = () => {
   const metrics = [
     {
       label: "Overall Accuracy",
-      value: 94.5,
+      value: 97.63,
       icon: Target,
       color: "text-primary",
       bgColor: "bg-primary/10",
@@ -25,14 +37,14 @@ const Performance = () => {
     },
     {
       label: "Precision",
-      value: 92.3,
+      value: 96.35,
       icon: CheckCircle,
       color: "text-success",
       bgColor: "bg-success/10",
     },
     {
       label: "Recall",
-      value: 89.7,
+      value: 94.7,
       icon: TrendingUp,
       color: "text-warning",
       bgColor: "bg-warning/10",
@@ -40,22 +52,19 @@ const Performance = () => {
   ];
 
   const classMetrics = [
-    { name: "Hard Hat", precision: 96.2, recall: 94.8, f1Score: 95.5 },
-    { name: "Safety Vest", precision: 93.1, recall: 91.5, f1Score: 92.3 },
-    { name: "Safety Boots", precision: 88.9, recall: 87.2, f1Score: 88.0 },
+    { name: "Vest", precision: 93.1, recall: 91.5, f1Score: 92.3 },
+    { name: "Helmet", precision: 96.2, recall: 94.8, f1Score: 95.5 },
+    { name: "Shoes", precision: 88.9, recall: 87.2, f1Score: 88.0 },
     { name: "Gloves", precision: 91.4, recall: 89.6, f1Score: 90.5 },
-    { name: "Safety Glasses", precision: 94.7, recall: 92.3, f1Score: 93.5 },
-    { name: "Welding Helmet", precision: 97.1, recall: 95.8, f1Score: 96.4 },
+    { name: "Googles", precision: 94.7, recall: 92.3, f1Score: 93.5 },
+    { name: "Mask", precision: 97.1, recall: 95.8, f1Score: 96.4 },
+    { name: "Earplug", precision: 87.1, recall: 88.3, f1Score: 89.2 },
   ];
 
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-6 py-8">
-        <Button
-          variant="ghost"
-          onClick={() => navigate("/")}
-          className="mb-6"
-        >
+        <Button variant="ghost" onClick={() => navigate("/")} className="mb-6">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Home
         </Button>
@@ -74,7 +83,9 @@ const Performance = () => {
               return (
                 <Card key={metric.label}>
                   <CardHeader className="pb-3">
-                    <div className={`w-12 h-12 rounded-full ${metric.bgColor} flex items-center justify-center mb-2`}>
+                    <div
+                      className={`w-12 h-12 rounded-full ${metric.bgColor} flex items-center justify-center mb-2`}
+                    >
                       <Icon className={`h-6 w-6 ${metric.color}`} />
                     </div>
                     <CardTitle className="text-sm font-medium text-muted-foreground">
@@ -119,7 +130,9 @@ const Performance = () => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <div className="flex justify-between mb-2 text-sm">
-                          <span className="text-muted-foreground">Precision</span>
+                          <span className="text-muted-foreground">
+                            Precision
+                          </span>
                           <span className="font-medium">{item.precision}%</span>
                         </div>
                         <Progress value={item.precision} className="h-2" />
@@ -133,7 +146,9 @@ const Performance = () => {
                       </div>
                       <div>
                         <div className="flex justify-between mb-2 text-sm">
-                          <span className="text-muted-foreground">F1-Score</span>
+                          <span className="text-muted-foreground">
+                            F1-Score
+                          </span>
                           <span className="font-medium">{item.f1Score}%</span>
                         </div>
                         <Progress value={item.f1Score} className="h-2" />
@@ -153,7 +168,7 @@ const Performance = () => {
               <CardContent className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Architecture</span>
-                  <span className="font-medium">YOLOv8</span>
+                  <span className="font-medium">YOLOv8n</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Input Size</span>
@@ -177,11 +192,11 @@ const Performance = () => {
               <CardContent className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Dataset Size</span>
-                  <span className="font-medium">15,000 images</span>
+                  <span className="font-medium">4000 Images</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Epochs</span>
-                  <span className="font-medium">300</span>
+                  <span className="font-medium">50</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Batch Size</span>
