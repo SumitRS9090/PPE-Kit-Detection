@@ -1,17 +1,12 @@
 import { useState, useRef } from "react";
 import { Upload as UploadIcon, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../components/ui/card";
-import { EnvironmentSelector } from "../components/EnvironmentSelector";
-import { ResultDisplay } from "../components/ResultDisplay";
-import { useToast } from "../hooks/use-toast";
-import { uploadImage } from "../../services/api";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { EnvironmentSelector } from "@/components/EnvironmentSelector";
+import { ResultDisplay } from "@/components/ResultDisplay";
+import { useToast } from "@/hooks/use-toast";
+import { uploadImage } from "../services/api";
 import { API_BASE } from "../config";
 
 const Upload = () => {

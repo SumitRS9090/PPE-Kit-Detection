@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE } from "../src/config";
+import { API_BASE } from "../config";
 
 // Upload image to backend and get annotated image URL
 export const uploadImage = async (file, environment) => {
