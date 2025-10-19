@@ -1,2 +1,2 @@
 // src/config.ts
-export const API_BASE = "http://localhost:5000"; // your Flask backend URL
+export const API_BASE = "https://ppe-kit-detection-o08d.onrender.com"; // your Flask backend URL
