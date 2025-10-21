@@ -1,17 +1,17 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from ultralytics import YOLO
 import os
 import cv2
 import numpy as np
 import base64
-import cloudinary
-import cloudinary.uploader
+import atexit
+import shutil
 from utils.ppe_detection import analyze_ppe  # Your PPE logic
 
 # ------------------ Config ------------------
 app = Flask(__name__)
-CORS(app)  # ✅ Enable CORS for all routes
+CORS(app)
 
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -19,14 +19,13 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # Load YOLO model
 model = YOLO("models/best.pt")
 
-# Configure Cloudinary
-cloudinary.config(
-    cloud_name="dyxqyf7ix",
-    api_key="215173552519325",
-    api_secret="rUAVCg6cAQu8oGxMSYTre9BxDGs",
-)
+# ------------------ Serve uploaded files ------------------
+@app.route("/uploads/<path:filename>")
+def serve_file(filename):
+    """Serve annotated images directly from uploads directory."""
+    return send_from_directory(UPLOAD_FOLDER, filename)
 
-# ------------------ /upload (unchanged) ------------------
+# ------------------ /upload ------------------
 @app.route("/upload", methods=["POST"])
 def upload_image():
     if "image" not in request.files:
@@ -54,22 +53,16 @@ def upload_image():
     annotated_path = os.path.join(UPLOAD_FOLDER, f"annotated_{file.filename}")
     cv2.imwrite(annotated_path, annotated_frame)
 
-    # Upload annotated image to Cloudinary
-    cloud_response = cloudinary.uploader.upload(annotated_path, folder="ppe_detection")
-    cloud_url = cloud_response.get("secure_url")
-
-    # Delete local files
-    os.remove(file_path)
-    os.remove(annotated_path)
+    # Build URL for frontend
+    image_url = f"{request.host_url}uploads/annotated_{file.filename}"
 
     return jsonify({
         "detectedItems": detected_items,
         "missingItems": missing_items,
-        "imageUrl": cloud_url
+        "imageUrl": image_url
     })
 
-
-# ------------------ /webcam (new) ------------------
+# ------------------ /webcam ------------------
 @app.route("/webcam", methods=["POST"])
 def process_webcam():
     try:
@@ -110,6 +103,19 @@ def process_webcam():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+# ------------------ Cleanup on Exit ------------------
+def cleanup_uploads():
+    """Delete everything inside uploads/ folder when Flask exits."""
+    if os.path.exists(UPLOAD_FOLDER):
+        try:
+            shutil.rmtree(UPLOAD_FOLDER)
+            print("🧹 Cleaned up uploads folder on exit.")
+        except Exception as e:
+            print(f"⚠️ Error cleaning uploads folder: {e}")
+
+atexit.register(cleanup_uploads)
 
 
 if __name__ == "__main__":
